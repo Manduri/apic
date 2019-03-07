@@ -1,0 +1,70 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: "salesaccounts"
+  title: "SalesAccounts"
+  version: "1.0.0"
+schemes:
+- "https"
+host: "$(catalog.host)"
+basePath: "/salesaccounts"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions:
+  clientIdHeader:
+    type: "apiKey"
+    in: "header"
+    name: "X-IBM-Client-Id"
+security:
+- clientIdHeader: []
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - proxy:
+        title: "proxy"
+        timeout: 60
+        verb: "keep"
+        cache-response: "protocol"
+        cache-ttl: 900
+        version: "1.0.0"
+        target-url: "https://provide.castiron.ibmcloud.com/env/Production/salesforce"
+        username: "skutam@miraclesoft.com"
+        password: "saikUtam@89"
+  phase: "realized"
+paths:
+  /details:
+    get:
+      responses:
+        200:
+          description: "200 OK"
+      parameters:
+      - name: "retrieve"
+        type: "string"
+        required: false
+        in: "query"
+    post:
+      responses:
+        200:
+          description: "200 OK"
+      parameters:
+      - name: "create"
+        type: "string"
+        required: false
+        in: "query"
+    delete:
+      responses:
+        200:
+          description: "200 OK"
+      parameters:
+      - name: "delete"
+        type: "string"
+        required: false
+        in: "query"
+definitions: {}
+tags: []
