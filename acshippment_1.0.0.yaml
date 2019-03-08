@@ -1,0 +1,290 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: "acshippment"
+  title: "AC_Shippment"
+  version: "1.0.0"
+schemes:
+- "https"
+host: "$(catalog.host)"
+basePath: "/acshippment"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions:
+  api-key-1:
+    type: "apiKey"
+    description: ""
+    in: "query"
+    name: "client_secret"
+  clientIdHeader:
+    type: "apiKey"
+    in: "query"
+    name: "client_id"
+    description: "mmanduri@miraclesoft.com"
+security:
+- clientIdHeader: []
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - operation-switch:
+        title: "operation-switch"
+        case:
+        - operations:
+          - verb: "post"
+            path: "/trackingDetails"
+          execute:
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "GET"
+              cache-response: "protocol"
+              cache-ttl: 900
+              stop-on-error:
+              - null
+              version: "1.0.0"
+              target-url: "http://172.17.11.158:462/JBHUNTDEMO/SHIPMENT/TRACKINGSERVICES"
+        - operations:
+          - verb: "get"
+            path: "/trackingDetails"
+          execute:
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "GET"
+              cache-response: "protocol"
+              cache-ttl: 900
+              stop-on-error:
+              - null
+              version: "1.0.0"
+              target-url: "http://172.17.11.158:462/JBHUNTDEMO/SHIPMENT/TRACKINGSERVICES?trackingid=123456789"
+          - map:
+              title: "map"
+              inputs:
+                input:
+                  schema:
+                    description: ""
+                    type: "object"
+                    properties:
+                      ShipmentTrackingResponse:
+                        type: "object"
+                        properties:
+                          TrackingResults:
+                            type: "object"
+                            properties:
+                              arr:KeyValueOfstringArrayOfTrackingResultmFAkxlpY:
+                                type: "object"
+                                properties:
+                                  arr:Key:
+                                    type: "string"
+                                    name: "arr:Key"
+                                  arr:Value:
+                                    type: "object"
+                                    properties:
+                                      TrackingResult:
+                                        type: "array"
+                                        items:
+                                          properties:
+                                            WaybillNumber:
+                                              type: "string"
+                                              name: "WaybillNumber"
+                                            UpdateCode:
+                                              type: "string"
+                                              name: "UpdateCode"
+                                            UpdateDescription:
+                                              type: "string"
+                                              name: "UpdateDescription"
+                                            UpdateDateTime:
+                                              type: "string"
+                                              name: "UpdateDateTime"
+                                            UpdateLocation:
+                                              type: "string"
+                                              name: "UpdateLocation"
+                                            Comments:
+                                              type: "string"
+                                              name: "Comments"
+                                            ProblemCode:
+                                              type: "string"
+                                              name: "ProblemCode"
+                                            GrossWeight:
+                                              type: "string"
+                                              name: "GrossWeight"
+                                            ChargeableWeight:
+                                              type: "string"
+                                              name: "ChargeableWeight"
+                                            WeightUnit:
+                                              type: "string"
+                                              name: "WeightUnit"
+                                          type: "object"
+                                        name: "TrackingResult"
+                                    name: "arr:Value"
+                                name: "arr:KeyValueOfstringArrayOfTrackingResultmFAkxlpY"
+                            name: "TrackingResults"
+                        name: "ShipmentTrackingResponse"
+                    example: "{\r\n  \"ShipmentTrackingResponse\": {\r\n    \"TrackingResults\"\
+                      : {\r\n      \"arr:KeyValueOfstringArrayOfTrackingResultmFAkxlpY\"\
+                      : {\r\n        \"arr:Key\": \"TRACKINGID\",\r\n        \"arr:Value\"\
+                      : {\r\n          \"TrackingResult\": [\r\n            {\r\n\
+                      \              \"WaybillNumber\": \"123456789\",\r\n       \
+                      \       \"UpdateCode\": \"t2\",\r\n              \"UpdateDescription\"\
+                      : \"Clearance delay - Import\",\r\n              \"UpdateDateTime\"\
+                      : \"2001-10-26T19:32:52Z\",\r\n              \"UpdateLocation\"\
+                      : \"LouisVille,KY\",\r\n              \"Comments\": \"\",\r\n\
+                      \              \"ProblemCode\": \"?\",\r\n              \"GrossWeight\"\
+                      : \"8.9 lbs / 4.04 kgs\",\r\n              \"ChargeableWeight\"\
+                      : \"8.9 lbs / 4.04 kgs\",\r\n              \"WeightUnit\": \"\
+                      8.9 lbs / 4.04 kgs\"\r\n            },\r\n            {\r\n\
+                      \              \"WaybillNumber\": \"123456789\",\r\n       \
+                      \       \"UpdateCode\": \"t1\",\r\n              \"UpdateDescription\"\
+                      : \"Shipment information sent to FedEx\",\r\n              \"\
+                      UpdateDateTime\": \"2001-10-26T19:32:52Z\",\r\n            \
+                      \  \"UpdateLocation\": \"WINNIPEGl,MB\",\r\n              \"\
+                      Comments\": \"\",\r\n              \"ProblemCode\": \"\",\r\n\
+                      \              \"GrossWeight\": \"8.9 lbs / 4.04 kgs\",\r\n\
+                      \              \"ChargeableWeight\": \"8.9 lbs / 4.04 kgs\"\
+                      ,\r\n              \"WeightUnit\": \"8.9 lbs / 4.04 kgs\"\r\n\
+                      \            }\r\n          ]\r\n        }\r\n      }\r\n  \
+                      \  }\r\n  }\r\n}"
+                  variable: "message.body"
+                  content: "application/json"
+              outputs:
+                output:
+                  schema:
+                    $ref: "#/definitions/TrackingDetails"
+                  variable: "message.body"
+                  content: "application/json"
+              actions:
+              - create: "output.ShipmentTrackingResponse.TrackingResults.arr:KeyValueOfstringArrayOfTrackingResultmFAkxlpY.arr:Value.TrackingResult"
+                foreach: "input.ShipmentTrackingResponse.TrackingResults.arr:KeyValueOfstringArrayOfTrackingResultmFAkxlpY.arr:Value.TrackingResult"
+                from: "input.ShipmentTrackingResponse.TrackingResults.arr:KeyValueOfstringArrayOfTrackingResultmFAkxlpY.arr:Value.TrackingResult"
+                actions:
+                - set: "UpdateDescription"
+                  from: "UpdateDescription"
+                - set: "UpdateDateTime"
+                  from: "UpdateDateTime"
+                - set: "WaybillNumber"
+                  from: "WaybillNumber"
+                - set: "UpdateLocation"
+                  from: "UpdateLocation"
+                - set: "GrossWeight"
+                  from: "GrossWeight"
+                - set: "ProblemCode"
+                  from: "ProblemCode"
+                - set: "WeightUnit"
+                  from: "WeightUnit"
+              - set: "output.ShipmentTrackingResponse.TrackingResults.arr:KeyValueOfstringArrayOfTrackingResultmFAkxlpY.arr:Value"
+                from: "input.ShipmentTrackingResponse.TrackingResults.arr:KeyValueOfstringArrayOfTrackingResultmFAkxlpY.arr:Value"
+              - set: "output.ShipmentTrackingResponse.TrackingResults"
+                from: "input.ShipmentTrackingResponse.TrackingResults"
+              - set: "output.ShipmentTrackingResponse"
+                from: "input.ShipmentTrackingResponse"
+              - set: "output"
+                from: "input"
+              - set: "output.ShipmentTrackingResponse.TrackingResults.arr:KeyValueOfstringArrayOfTrackingResultmFAkxlpY"
+                from: "input.ShipmentTrackingResponse.TrackingResults.arr:KeyValueOfstringArrayOfTrackingResultmFAkxlpY"
+              version: "1.0.0"
+          - gatewayscript:
+              title: "gatewayscript"
+              version: "1.0.0"
+              source: "if(apim.getvariable('message.status.code') ===404)\n{\n   \
+                \ apim.error('Error', 404, 'Not Found', 'No Info Found for SKU Number,\
+                \ Verify Your SKUNUM');\n    \n}\n\nelse if(apim.getvariable('message.status.code')===\
+                \ 400)\n{\n    \n    apim.error('Error', 400, 'Bad request', 'Invalid\
+                \ SKU Number, Verfiy Your Request');\n}\nelse if(apim.getvariable('message.status.code')===\
+                \ 500)\n{\n    apim.error('Error', 500, 'Internal Server Error', 'Please\
+                \ Contact API Provider, For More Details')\n    \n}\n//else if(apim.getvariable('message.status.code')===\
+                \ 200)\n//{\n   // apim.error('Error', 200, 'Success', 'Executed Successfully')\n\
+                \    \n//}\n"
+        otherwise: []
+        version: "1.0.0"
+    - writeToDatapowerLog:
+        logLevel: "alert"
+        version: "1.0.0"
+        message: "Alert Message from API Connect"
+    catch: []
+  phase: "realized"
+paths:
+  /trackingDetails:
+    get:
+      responses:
+        200:
+          description: "200 OK"
+    post:
+      responses:
+        200:
+          description: "200 OK"
+      parameters:
+      - name: "body"
+        required: false
+        in: "body"
+        schema:
+          type: "object"
+definitions:
+  TrackingDetails:
+    description: ""
+    type: "object"
+    properties:
+      ShipmentTrackingResponse:
+        type: "object"
+        properties:
+          TrackingResults:
+            type: "object"
+            properties:
+              arr:KeyValueOfstringArrayOfTrackingResultmFAkxlpY:
+                type: "object"
+                properties:
+                  arr:Key:
+                    type: "string"
+                  arr:Value:
+                    type: "object"
+                    properties:
+                      TrackingResult:
+                        type: "array"
+                        items:
+                          properties:
+                            WaybillNumber:
+                              type: "string"
+                            UpdateCode:
+                              type: "string"
+                            UpdateDescription:
+                              type: "string"
+                            UpdateDateTime:
+                              type: "string"
+                            UpdateLocation:
+                              type: "string"
+                            Comments:
+                              type: "string"
+                            ProblemCode:
+                              type: "string"
+                            GrossWeight:
+                              type: "string"
+                            ChargeableWeight:
+                              type: "string"
+                            WeightUnit:
+                              type: "string"
+                          type: "object"
+    example: "{\r\n  \"ShipmentTrackingResponse\": {\r\n    \"TrackingResults\": {\r\
+      \n      \"arr:KeyValueOfstringArrayOfTrackingResultmFAkxlpY\": {\r\n       \
+      \ \"arr:Key\": \"TRACKINGID\",\r\n        \"arr:Value\": {\r\n          \"TrackingResult\"\
+      : [\r\n            {\r\n              \"WaybillNumber\": \"123456789\",\r\n\
+      \              \"UpdateCode\": \"t2\",\r\n              \"UpdateDescription\"\
+      : \"Clearance delay - Import\",\r\n              \"UpdateDateTime\": \"2001-10-26T19:32:52Z\"\
+      ,\r\n              \"UpdateLocation\": \"LouisVille,KY\",\r\n              \"\
+      Comments\": \"\",\r\n              \"ProblemCode\": \"?\",\r\n             \
+      \ \"GrossWeight\": \"8.9 lbs / 4.04 kgs\",\r\n              \"ChargeableWeight\"\
+      : \"8.9 lbs / 4.04 kgs\",\r\n              \"WeightUnit\": \"8.9 lbs / 4.04\
+      \ kgs\"\r\n            },\r\n            {\r\n              \"WaybillNumber\"\
+      : \"123456789\",\r\n              \"UpdateCode\": \"t1\",\r\n              \"\
+      UpdateDescription\": \"Shipment information sent to FedEx\",\r\n           \
+      \   \"UpdateDateTime\": \"2001-10-26T19:32:52Z\",\r\n              \"UpdateLocation\"\
+      : \"WINNIPEGl,MB\",\r\n              \"Comments\": \"\",\r\n              \"\
+      ProblemCode\": \"\",\r\n              \"GrossWeight\": \"8.9 lbs / 4.04 kgs\"\
+      ,\r\n              \"ChargeableWeight\": \"8.9 lbs / 4.04 kgs\",\r\n       \
+      \       \"WeightUnit\": \"8.9 lbs / 4.04 kgs\"\r\n            }\r\n        \
+      \  ]\r\n        }\r\n      }\r\n    }\r\n  }\r\n}"
+tags: []
