@@ -4,18 +4,18 @@
 jenkinsfileURL = ""
 jenkinsfileBranch = "master"
 
-product = "sample-product_1.0.0.yaml"
+product = "acshippment-product_1.0.0.yaml"
 //Name of credential object in Jenkins
 creds = ""
 
 //APIC Environment variables
-devServer = ""
-devCatalog = ""
-devOrg = ""
+devServer = "172.17.11.159"
+devCatalog = "sb"
+devOrg = "demo"
 
-testServer = ""
-testCatalog = ""
-testOrg = ""
+testServer = "172.17.11.159"
+testCatalog = "sb"
+testOrg = "apic"
 
 serverStg = ""
 spaceStg = ""
